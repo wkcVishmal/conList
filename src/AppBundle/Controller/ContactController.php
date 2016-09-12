@@ -18,19 +18,10 @@ use Symfony\Component\HttpFoundation\Response;
 class ContactController extends Controller
 {
     /**
-     * @Route("/home")
-     */
-    public function showHome(){
-        return $this->render('conList/home.html');
-    }
-
-    /**
      * @Route("/")
      */
-    public function showList(){
-        $em = $this->getDoctrine()->getManager();
-        $contacts = $em->getRepository('AppBundle:Contact')->findAll();
-        return $this->render('conList/viewList.html.twig',['contacts'=>$contacts]);
+    public function showHome(){
+        return $this->render('conList/home.html.twig');
     }
 
     /**

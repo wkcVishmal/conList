@@ -6,9 +6,7 @@
 
 {% block body %}
     <div class="panel panel-default" ng-app="myApp" ng-controller="myCtrl">
-        {{ '{{ contacts }}' }}
 
-    </div>
     <table class="table">
         <thead>
         <tr>
@@ -21,8 +19,19 @@
         </thead>
         <tbody>
 
+
+            <tr ng-repeat="contact in contacts">
+
+                <td>{{ '{{ contact.id }}' }}</td>
+                <td>{{ '{{ contact.name }}' }}</td>
+                <td>{{ '{{ contact.address }}' }}</td>
+                <td>{{ '{{ contact.email }}' }}</td>
+                <td>{{ '{{ contact.contactno }}' }}</td>
+            </tr>
         </tbody>
     </table>
+
+    </div>
 {% endblock %}
 
 
