@@ -31,11 +31,15 @@ framework:
     fragments:       ~
     http_method_override: true
     assets: ~
+    serializer:
+                enabled: true
 
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    form_themes:
+            - 'AppBundle::Form/form_override.html.twig'
 
 # Doctrine Configuration
 doctrine:
