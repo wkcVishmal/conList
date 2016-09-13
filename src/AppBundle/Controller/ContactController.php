@@ -23,10 +23,37 @@ class ContactController extends Controller
     }
 
     /**
-     * @Route("/showAddNew")
+     * @Route("/addNew")
      */
     public function addCotact(){
-        return $this->render('conList/add.html.twig');
+        return $this->render('conList/addNew.html.twig');
+    }
+
+    /**
+     * @Route("/saveContact")
+     */
+    public function saveContact(){
+
+        //$name   = $request->request->get('name', null);
+        //$address = $request->request->get('address', null);
+        //$email   = $request->request->get('email', null);
+        //$contactno     = $request->request->get('contactno', null);
+
+        $name = "cccc";
+        $address = "sfass";
+        $email = "eeee";
+        $contactno = "245235235";
+
+        $contact = new Contact();
+        $contact->setName($name);
+        $contact->setAddress($address);
+        $contact->setEmail($email);
+        $contact->setContactno($contactno);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($contact);
+        $em->flush();
+
     }
 
     /**
@@ -36,10 +63,10 @@ class ContactController extends Controller
         $contact = new Contact();
 
         $form = $this->createFormBuilder($contact)
-            ->add('name',TextType::class,array('attr' => array('class' => 'form-control','style'=>'margin-bottom:15px')))
-            ->add('address',TextType::class,array('attr' => array('class' => 'form-control','style'=>'margin-bottom:15px')))
-            ->add('email',TextType::class,array('attr' => array('class' => 'form-control','style'=>'margin-bottom:15px')))
-            ->add('contactno',TextType::class,array('label'=>'Contact No:','attr' => array('class' => 'form-control','style'=>'margin-bottom:15px')))
+            ->add('name',TextType::class,array('attr' => array('class' => 'form-control','style'=>'margin-bottom:15px','ng-model' => 'name')))
+            ->add('address',TextType::class,array('attr' => array('class' => 'form-control','style'=>'margin-bottom:15px','ng-model' => 'address')))
+            ->add('email',TextType::class,array('attr' => array('class' => 'form-control','style'=>'margin-bottom:15px','ng-model' => 'email')))
+            ->add('contactno',TextType::class,array('label'=>'Contact No:','attr' => array('class' => 'form-control','style'=>'margin-bottom:15px','ng-model' => 'contactno')))
             ->add('save',SubmitType::class,array('label'=>'Add Contact','attr' => array('class' => 'btn btn-primary','style'=>'margin-bottom:15px')))
             ->getForm();
 
@@ -65,25 +92,9 @@ class ContactController extends Controller
               'Notice',
                 'Contact Added'
             );
-
-
         }
-
         return $this->render('conList/new.html.twig',array(
             'form'=> $form->createView()
-        ));
-
-    }
-
-    /**
-     * @Route  ("/addNew", name="addNew")
-     */
-    public function addNewAction(){
-        $contact = new Contact();
-        $form = $this->createForm(ContactType::class,$contact);
-        return $this->render('conList/new.html.twig',array(
-            'quote' => 'my form quote',
-            'form' => $form->createView()
         ));
     }
 
@@ -100,22 +111,6 @@ class ContactController extends Controller
         $respose->headers->set('Content-Type','application/json');
         return $respose;
     }
-
-    /**
-     * @Route("/getlist")
-     * @Method("GET")
-     */
-    public function getList(){
-        $em = $this->getDoctrine()->getManager();
-        $contacts = $em->getRepository('AppBundle:Contact')->findAll();
-
-        $contacts = $this->get('serializer')->serialize($contacts,'json');
-        $respose = new Response($contacts);
-        $respose->headers->set('Content-Type','application/json');
-
-        return $this->render('conList/getlist.html.twig',$respose);
-    }
-
 
 
 }
