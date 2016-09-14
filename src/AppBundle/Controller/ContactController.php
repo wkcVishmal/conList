@@ -7,6 +7,7 @@ use AppBundle\Entity\Contact;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,39 +24,87 @@ class ContactController extends Controller
     }
 
     /**
+     * @Route("/listdata")
+     * @Method("GET")
+     */
+    public function conList(){
+        $em = $this->getDoctrine()->getManager();
+        $contacts = $em->getRepository('AppBundle:Contact')->findAll();
+
+        $contacts = $this->get('serializer')->serialize($contacts,'json');
+        $respose = new Response($contacts);
+        $respose->headers->set('Content-Type','application/json');
+        return $respose;
+    }
+
+    //show the Add new contact form
+    /**
      * @Route("/addNew")
      */
     public function addCotact(){
         return $this->render('conList/addNew.html.twig');
     }
 
+    //Backend API for save contact Json Object
     /**
      * @Route("/saveContact")
      */
-    public function saveContact(){
+    public function saveContact(Request $request){
+        try{
+            $data = json_decode($request->getContent(), true);
 
-        //$name   = $request->request->get('name', null);
-        //$address = $request->request->get('address', null);
-        //$email   = $request->request->get('email', null);
-        //$contactno     = $request->request->get('contactno', null);
+            $contact = new Contact();
 
-        $name = "cccc";
-        $address = "sfass";
-        $email = "eeee";
-        $contactno = "245235235";
+            $name = $data['name'];
+            $address = $data['address'];
+            $email = $data['email'];
+            $contactno = $data['contactno'];
 
-        $contact = new Contact();
-        $contact->setName($name);
-        $contact->setAddress($address);
-        $contact->setEmail($email);
-        $contact->setContactno($contactno);
+            $contact->setName($name);
+            $contact->setAddress($address);
+            $contact->setEmail($email);
+            $contact->setContactno($contactno);
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($contact);
-        $em->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($contact);
+            $em->flush();
+
+            $this->addFlash(
+                'Notice',
+                'Contact Added'
+            );
+            return new JsonResponse(array('data' => $name));
+        }catch (Exception $e){
+
+        }
+    }
+
+    /**
+     * @Route("/deleteContact")
+     */
+    public function deleteContact(Request $request){
+        try{
+            $data = json_decode($request->getContent(), true);
+
+            $id = $data['id'];
+            //$id = 11;
+
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('AppBundle:Contact')->findOneBy(array('id' => $id));
+
+            if ($entity != null){
+                $em->remove($entity);
+                $em->flush();
+            }
+
+            return new JsonResponse(array('data' => "deleted"));
+        }catch (Exception $e){
+
+        }
 
     }
 
+    //Another method:- for Create form to add new contact and save contact details
     /**
      *@Route("add")
      */
@@ -98,19 +147,7 @@ class ContactController extends Controller
         ));
     }
 
-    /**
-     * @Route("/listdata")
-     * @Method("GET")
-     */
-    public function conList(){
-        $em = $this->getDoctrine()->getManager();
-        $contacts = $em->getRepository('AppBundle:Contact')->findAll();
 
-        $contacts = $this->get('serializer')->serialize($contacts,'json');
-        $respose = new Response($contacts);
-        $respose->headers->set('Content-Type','application/json');
-        return $respose;
-    }
 
 
 }

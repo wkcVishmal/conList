@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d8a4089a6382aae76d2fe3f3426b0d31",
-    "content-hash": "a741b410b648acc292634e4b587a4fee",
+    "hash": "b9b80d3c91e670c329048595018a2c09",
+    "content-hash": "11281b1afdcb891281a00174bec7e93f",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1087,6 +1087,46 @@
             "time": "2012-12-21 11:40:51"
         },
         {
+            "name": "qandidate/symfony-json-request-transformer",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/qandidate-labs/symfony-json-request-transformer.git",
+                "reference": "f7c98f3784b5ffea13217d888b006e2e8c255ba7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/qandidate-labs/symfony-json-request-transformer/zipball/f7c98f3784b5ffea13217d888b006e2e8c255ba7",
+                "reference": "f7c98f3784b5ffea13217d888b006e2e8c255ba7",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/http-kernel": "~2.3|~3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Qandidate\\Common\\Symfony\\HttpKernel\\EventListener": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander",
+                    "email": "iam.asm89@gmail.com"
+                },
+                {
+                    "name": "Qandidate.com",
+                    "homepage": "http://labs.qandidate.com/"
+                }
+            ],
+            "description": "A Symfony 2 event listener for decoding JSON encoded request content",
+            "time": "2016-05-03 19:25:11"
+        },
+        {
             "name": "sensio/distribution-bundle",
             "version": "v5.0.8",
             "source": {
@@ -2070,8 +2110,5 @@
     "platform": {
         "php": ">=5.5.9"
     },
-    "platform-dev": [],
-    "platform-overrides": {
-        "php": "5.5.9"
-    }
+    "platform-dev": []
 }

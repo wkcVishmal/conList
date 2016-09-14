@@ -7,41 +7,51 @@
     </div>
         <!-- form -->
     <div class="panel panel-default col-md-10" ng-app="formApp" ng-controller="formCtrl">
-        <form class="simple-form">
+        <div class="alert alert-success" ng-show="show">
+            <strong>Successfully created a new contact!</strong>
+            <br>Name : {{ '{{ data.name }}' }}
+            <br>Address : {{ '{{ data.address }}' }}
+            <br>Email : {{ '{{ data.email }}' }}
+            <br>Contact No : {{ '{{ data.contactno }}' }}
+        </div>
+
+        <form class="simple-form" name="myform">
 
             <div class="form-group row">
                 <label for="example-text-input" class="col-xs-2 col-form-label">Name</label>
                 <div class="col-xs-10">
-                    <input name="name" ng-model="con.name" class="form-control" type="text" placeholder="Artisanal kale" id="example-text-input">
+                    <input name="name" ng-model="con.name" class="form-control" type="text" placeholder="Artisanal kale" id="example-text-input" ng-click="hideMsg()" required>
+                    <p ng-show="myform.name.$invalid && myform.name.$touched" style="color:red;">The name is required.</p>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="example-search-input" class="col-xs-2 col-form-label">Address</label>
                 <div class="col-xs-10">
-                    <input name="address" ng-model="con.address" class="form-control" type="search" placeholder="Colombo, Sri Lanka" id="example-search-input">
+                    <input name="address" ng-model="con.address" class="form-control" type="search" placeholder="Colombo, Sri Lanka" id="example-search-input" ng-click="hideMsg()">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="example-email-input" class="col-xs-2 col-form-label">Email</label>
                 <div class="col-xs-10">
-                    <input name="email" ng-model="con.email" class="form-control" type="email" placeholder="email@example.com" id="example-email-input">
+                    <input name="email" ng-model="con.email" class="form-control" type="email" placeholder="email@example.com" id="example-email-input" ng-click="hideMsg()">
+                    <span ng-show="myform.email.$touched && myform.email.$invalid" style="color:red;">* Enter a valid Email.</span>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="example-tel-input" class="col-xs-2 col-form-label">Telephone</label>
                 <div class="col-xs-10">
-                    <input name="contactno" ng-model="con.contactno" class="form-control" type="tel" placeholder="+94 771231231" id="example-tel-input">
+                    <input name="contactno" ng-model="con.contactno" class="form-control" pattern="[0-9]{10}" placeholder="+94 771231231" id="example-tel-input" ng-click="hideMsg()" required>
+                    <span ng-show="myform.contactno.$touched && myform.contactno.$invalid" style="color:red;">* Enter a valid Contact Number.</span>
                 </div>
             </div>
 
             <div class="form-group pull-right">
-                <button type="submit" ng-click="update(con)" class="btn btn-primary">Add Contacts</button>
+                <button type="submit" ng-click="update(con)" class="btn btn-primary" ng-disabled="myform.$invalid">Add Contacts</button>
             </div>
         </form>
-        {{ '{{ PostDataResponse }}' }}
 
-        <pre>user = {{ '{{con | json}}' }}</pre>
-        <pre>master = {{ '{{ data }}' }}</pre>
+        <pre>contact = {{ '{{con | json}}' }}</pre>
+        <pre>data = {{ '{{ data }}' }}</pre>
     </div>
 {% endblock %}
 

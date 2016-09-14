@@ -46,6 +46,7 @@ class Contact
 
     /**
      * @ORM\Column(type="string")
+     *
      */
     private $address;
 
