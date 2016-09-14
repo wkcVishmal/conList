@@ -104,6 +104,33 @@ class ContactController extends Controller
 
     }
 
+    /**
+     * @Route("/getContact")
+     */
+    public function getContact(Request $request){
+        try{
+            $data = json_decode($request->getContent(), true);
+
+            //$id = $data['id'];
+            $id = 2;
+
+            $em = $this->getDoctrine()->getManager();
+            $contact = $em->getRepository('AppBundle:Contact')->findOneBy(array('id' => $id));
+
+            if ($contact != null){
+                $contact = $this->get('serializer')->serialize($contact,'json');
+                $response = new Response($contact);
+                $response->headers->set('Content-Type','application/json');
+                return $response;
+            }
+
+            return new JsonResponse(array('data' => "deleted"));
+        }catch (Exception $e){
+
+        }
+
+    }
+
     //Another method:- for Create form to add new contact and save contact details
     /**
      *@Route("add")
